@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../build/ext-all.js"></script>
+    <link rel="stylesheet" type="text/css" href="../build/classic/theme-triton/resources/theme-triton-all.css" />
+</head>
+<body>
+<div id="helloWorldPanel">
+
+</div>
+
+<script>
+
+    Ext.onReady(function() {
+
+        // //弹窗？
+        // let win = new Ext.Window({
+        //     title: '窗口',
+        //     width:500,
+        //     height:400,
+        //     html:'<div>this is a window</div>',
+        //     resizable: true, //是否可以调整窗体的大小，这里设置为 true。
+        //     modal: true,//打开这个窗体以后，不能对其他的窗体进行操作
+        //     closable:true,
+        //     maximizable: true,
+        //     minimizable: true,
+        //
+        // });
+        // win.show();
+
+        let username = new Ext.form.TextField({
+                width:250,
+                allowBlank: false,
+                maxLength: 20,
+                name: 'username',
+                style: 'margin-top:10px',
+                fieldLabel: '用户名称',
+                blankText: '请输入用户名',
+                maxLengthText: '用户名不能超过20个字符'
+         });
+
+        //表单
+        //重置按钮"鼠标悬停"处理方法
+
+
+        let form = new Ext.form.FormPanel({
+            frame: true,
+            title: '表单标题',
+            style: 'margin:10px',
+            html: '<div style="padding:10px">这里表单内容</div>',
+            items: [{
+                xtype: 'textfield',
+                fieldLabel: '输入框',
+                blankText: '请输入用户名',
+                allowBlank:false,
+                style:'margin-top:10px;margin-left:10px;placeholder:"input"'
+            },{
+                xtype: 'displayfield',
+                fieldLabel: 'Display Field',
+                style:'margin-top:10px;margin-left:10px'
+
+            },{
+                xtype: 'textarea',
+                fieldLabel: 'Text Area'
+            },{
+                xtype: 'datefield',
+                fieldLabel: 'Date picker'
+            },{
+                xtype: 'button',
+                text: '提交',
+                handler:()=>{  //点击处理
+                    Ext.MessageBox.alert('msg',"<h1>you click submit</h1>");
+                }
+            },{
+                xtype: 'fieldcontainer',
+                fieldLabel: 'Radio field',
+                defaultType: 'radiofield',
+                defaults: {
+                    flex: 1
+                },
+                layout: 'hbox',
+                items: [{
+                    boxLabel: 'A',
+                    inputValue: 'a',
+                    id: 'radio1'
+                },{
+                    boxLabel: 'B',
+                    inputValue: 'b',
+                    id: 'radio2'
+                },{
+                    boxLabel: 'C',
+                    inputValue: 'c',
+                    id: 'radio3'
+                }]
+            },{
+                xtype: 'fieldcontainer',
+                fieldLabel: 'Check Box Field',
+                defaultType: 'checkboxfield',
+                items: [{
+                    boxLabel: 'HTML',
+                    inputValue: 'html',
+                    id: 'checkbox1'
+                },{
+                    boxLabel: 'CSS',
+                    inputValue: 'css',
+                    checked: true,
+                    id: 'checkbox2'
+                },{
+                    boxLabel: 'JavaScript',
+                    inputValue: 'js',
+                    id: 'checkbox3'
+                }]
+            },{
+                xtype: 'hiddenfield',
+                name: 'hidden field ',
+                value: 'value from hidden field'
+            },{
+                xtype: 'numberfield',
+                anchor: '100%',
+                fieldLabel: 'Numeric Field',
+                maxValue: 99,
+                minValue: 0
+            },{
+                xtype: 'spinnerfield',
+                fieldLabel: 'Spinner Field',
+                step: 6,
+                // override onSpinUp (using step isn't neccessary)
+                onSpinUp: function() {
+                    var me = this;
+                    if (!me.readOnly) {
+                        var val = me.step; // set the default value to the step value
+                        if(me.getValue() !== '') {
+                            val = parseInt(me.getValue().slice(0, -5)); // gets rid of " Pack"
+                        }
+                        me.setValue((val + me.step) + ' Pack');
+                    }
+                },
+
+                // override onSpinDown
+                onSpinDown: function() {
+                    var me = this;
+                    if (!me.readOnly) {
+                        if(me.getValue() !== '') {
+                            val = parseInt(me.getValue().slice(0, -5)); // gets rid of " Pack"
+                        }
+                        me.setValue((val - me.step) + ' Pack');
+                    }
+                }
+            },{
+                xtype: 'timefield',
+                fieldLabel: 'Time field',
+                minValue: '6:00 AM',
+                maxValue: '8:00 PM',
+                increment: 30,
+                anchor: '100%'
+            },{
+                xtype: 'combobox',
+                fieldLabel: 'Combo Box',
+                store: Ext.create('Ext.data.Store', {
+                    fields: ['abbr', 'name'],
+                    data: [{
+                        'abbr': 'HTML',
+                        'name': 'HTML'
+                    },{
+                        'abbr': 'CSS',
+                        'name': 'CSS'
+                    },{
+                        'abbr': 'JS',
+                        'name': 'JavaScript'
+                    }]
+                }),
+                valueField: 'abbr',
+                displayField: 'name'
+            },{
+                xtype: 'filefield',
+                fieldLabel: 'File field',
+                labelWidth: 50,
+                msgTarget: 'side',
+                allowBlank: false,
+                anchor: '100%',
+                buttonText: 'Select File...'
+            }]
+        })
+
+        // 面板组件
+        Ext.create('Ext.Panel', {
+            renderTo: 'helloWorldPanel',
+            height: 960,
+            width: 600,
+            style:"margin:0 auto",
+            title: 'Hello world',
+            html: 'First Ext JS Hello World Program',
+            items:form
+        });
+    })
+</script>
+</body>
+</html>

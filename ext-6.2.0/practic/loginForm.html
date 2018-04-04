@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../build/ext-all.js"></script>
+    <link rel="stylesheet" type="text/css" href="../build/classic/theme-triton/resources/theme-triton-all.css" />
+</head>
+<style>
+    .x-form-item-label-inner  {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+
+</style>
+<body>
+
+<div id="helloWorldPanel">
+</div>
+
+
+<script>
+    Ext.onReady(function() {
+
+        const from=new Ext.form.FormPanel({
+            renderTo: 'helloWorldPanel',
+            url: '******',   //  ajax地址
+            frame: true,
+            title: '表单标题',
+            width:300,
+            itemsAlign: 'center',
+            style: 'margin:0 auto',
+            buttonAlign: 'center',
+            buttons:[
+                {
+                    xtype: 'button',
+                    text: '登陆',
+                    handler:()=>{  //点击处理
+                        if (from.getForm().isValid()) {
+                            //do something 通常发送到服务器端获取返回值再进行处理，
+                            Ext.Msg.alert("提示", "登陆成功!");
+                        }
+                    }
+                },
+                {
+                    xtype: 'button',
+                    text: '重置',
+                    handler:()=>{  //点击处理
+                        from.getForm().reset();  //重置表单
+                    }
+                }
+            ],   //  按钮组件
+            items: [
+                {
+                    cls:"user",
+                    xtype: 'textfield',
+                    fieldLabel: '账号',
+                    labelAlign: 'right',
+                    blankText: '请输入用户名',
+                    allowBlank:false,
+                    style:'margin-top:10px;margin-left:10px;placeholder:"input"'
+                },
+                {
+                    cls:"pass",
+                    xtype: 'textfield',
+                    fieldLabel: '密码',
+                    labelAlign: 'right',
+                    blankText: '请输入密码',
+                    allowBlank:false,
+                    style:'margin-top:10px;margin-left:10px;placeholder:"input"'
+                },
+                {
+                    id:'checkcode',
+                    xtype: 'textfield',
+                    fieldLabel: '验证码',
+                    labelAlign: 'right',
+                    blankText: '请输入验证码',
+                    allowBlank:false,
+                    width: 180,
+                    style:'margin-top:10px;margin-left:10px;'
+                }
+
+            ]     //  表单组件
+        });
+
+        let checkCode = Ext.getDom('checkcode');  //根据ID获取Dom。
+        let container = Ext.get(checkCode.parentNode) // 根据Dom获取父节点。
+        console.log(container)
+        container.createChild({  // 创建子节点
+            tag: 'img',
+            src: 'image/1.gif',
+            style: 'padding-left:23px;cursor:pointer;position: absolute;right:20px;bottom:15px'
+        });
+
+    })
+</script>
+</body>
+</html>
